@@ -1,6 +1,8 @@
 はい。Tools配下に全部きれいに集約することにこだわらないなら、公式の標準インストールで十分です。 むしろその方が運用は簡単です。
 
+```shell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
 
 これはuv公式が案内しているWindows向けの標準インストール方法です。
 
@@ -8,6 +10,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 
 イメージとしてはこうです。
 
+```text
 Windows 11
 │
 ├─ ユーザー領域
@@ -20,6 +23,7 @@ Windows 11
     │   └─ .venv
     └─ project-b
         └─ .venv
+```
 
 この構成の方が、手動で
 
