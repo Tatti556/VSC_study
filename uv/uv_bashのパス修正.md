@@ -52,3 +52,62 @@ uv run uv-test00
 - 変更ファイル: なし
 - 検証結果: 一時的にPATHを追加するとGit Bashで `uv 0.12.5` を認識
 - 残る点: `uv run` 自体は、仮想環境作成や依存関係取得を伴う可能性があるため未実行です
+
+
+---
+
+スクリーンショットの入力値は正しいですが、有効な `PATH` には反映されていません。
+
+確認した保存状態では、ユーザー／システム双方の `PATH` に `C:\Users\tatti\.local\bin` が存在しません。環境変数画面では、手前の「OK」に続いて背面の「環境変数」画面でも「OK」を押して確定する必要があります。
+
+まずGit Bashで確実に直すなら、以下を実行してください。
+
+```bash
+code ~/.bash_profile
+```
+
+開いたファイルに次の1行を保存します。
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+ターミナルへ反映します。
+
+```bash
+source ~/.bash_profile
+hash -r
+which uv
+uv --version
+```
+
+期待結果:
+
+```text
+/c/Users/tatti/.local/bin/uv
+uv 0.12.5 ...
+```
+
+続いてプロジェクトを実行します。
+
+```bash
+cd ~/Documents/011_coding/03_product/uv-test00
+uv run uv-test00
+```
+
+Windows環境変数側を再確認する場合は、スタートメニューからPowerShellを新規起動し、次を実行してください。
+
+```powershell
+[Environment]::GetEnvironmentVariable("Path", "User") -split ";"
+```
+
+一覧に次がなければ、環境変数画面での変更が保存されていません。
+
+```text
+C:\Users\tatti\.local\bin
+```
+
+- 変更内容: なし
+- 検証結果: `uv.exe` は存在するが、有効なユーザー／システム／Git Bashの全PATHから欠落
+- 推奨対応: `~/.bash_profile` へPATHを明示的に追加
+- 残る点: Windows環境変数画面の変更が保存されなかった理由自体は特定できていません
